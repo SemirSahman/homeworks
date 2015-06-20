@@ -1,0 +1,26 @@
+package ba.bitcamp.task6;
+
+/**
+ * Class representing cats.
+ * Inherits atributes and methods from class Pet.
+ * @author Semir
+ *
+ */
+public class Cat extends Pet {
+
+	/**
+	 * @param name Cat`s name
+	 * @param age Age
+	 */
+	public Cat(String name, int age) {
+		super(name, age, "Cat");
+	}
+	
+	/**
+	 * Returns "Go away human".
+	 */
+	public String toString(){
+		return "Go away human";
+	}
+	
+}

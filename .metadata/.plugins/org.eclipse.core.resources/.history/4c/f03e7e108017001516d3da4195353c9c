@@ -1,0 +1,18 @@
+package ba.bitcamp.task1;
+
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+		
+		//Declaring and initializing variable
+		CampStringBuilder csb = new CampStringBuilder(new char[]{'A', '2', 'c'});
+		//Testing methods
+		csb.append(Math.PI);
+		System.out.println(csb.toString());
+		csb.prepend(new Scanner(System.in));
+		System.out.println(csb.toString());
+		
+	}
+}

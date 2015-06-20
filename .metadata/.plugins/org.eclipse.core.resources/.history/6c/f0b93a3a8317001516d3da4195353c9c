@@ -1,0 +1,146 @@
+package ba.bitcamp.task234;
+
+import java.util.Arrays;
+
+import javax.naming.OperationNotSupportedException;
+/**
+ * Class representing a book store. 
+ * @author Ognjen
+ *
+ */
+public class BookStore {
+
+	private String name;
+	private Book[] books;
+	
+	/**
+	 * Default constructor.
+	 * @param name Book store`s name
+	 * @param books Books in stock
+	 */
+	public BookStore(String name, Book[] books) {
+		super();
+		this.name = name;
+		this.books = books;
+	}
+
+	/**
+	 * @return The name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @param name The name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * @return The books
+	 */
+	public Book[] getBooks() {
+		return books;
+	}
+
+	/**
+	 * @param books The books to set
+	 */
+	public void setBooks(Book[] books) {
+		this.books = books;
+	}
+	
+	/**
+	 * Adds given book to the array. If given book already exists in array, 
+	 * sets new inStock value for given book.
+	 * @param b New book
+	 */
+	public void addBook(Book b){
+		for (int i = 0; i < books.length; i++) {
+			if(b.equals(books[i])){
+				books[i].setInStock(books[i].getInStock() + b.getInStock());
+				return;
+			}
+		}
+		Book[] tmp = new Book[books.length + 1];
+		for (int i = 0; i < books.length; i++) {
+			tmp[i] = books[i];
+		}
+		tmp[tmp.length - 1] = b;
+		books = tmp;
+	}
+	
+	/**
+	 * Reduces inStock value of given book. 
+	 * @param booksIndex Books index in array
+	 * @param amount Amount of copies to sell
+	 * @throws OperationNotSupportedException When given amount of books to sell are less than 0,
+	 * and when given index is out of bounds 
+	 */
+	public void sellBook(int booksIndex, int amount) throws OperationNotSupportedException {
+		if(booksIndex > 0 && booksIndex < books.length && amount > 0){
+			if(books[booksIndex].getInStock() >= amount){
+				books[booksIndex].setInStock(books[booksIndex].getInStock() - amount);
+			} else {
+				System.out.println("Not enough copies.");
+			}
+		} else {
+			throw new OperationNotSupportedException();
+		}
+	}
+	
+	/**
+	 * Prints information about books in store.
+	 */
+	public void printBooks(){
+		for (int i = 0; i < books.length; i++) {
+			System.out.println(books[i]);
+		}
+	}
+	
+	/**
+	 * Prints information about books written by given author.
+	 * @param a An author
+	 */
+	public void printBooksByAuthor(Author a){
+		for (int i = 0; i < books.length; i++) {
+			if(books[i].getAuthor().equals(a)){
+				System.out.println(books[i]);
+			}
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "BookStore [name=" + name + ", books=" + Arrays.toString(books)
+				+ "]";
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof BookStore))
+			return false;
+		BookStore other = (BookStore) obj;
+		if (!Arrays.equals(books, other.books))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		return true;
+	}
+	
+}
