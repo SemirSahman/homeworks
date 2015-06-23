@@ -1,0 +1,34 @@
+public class Protagonist extends Character {
+
+	private Goal goal;
+	private Character[] sideCharacters;
+	private Character enemy;
+
+	public Protagonist(String name, String gender, Boolean isCapable, Goal goal) {
+		super(name, gender, isCapable);
+		this.goal = goal;
+		this.sideCharacters = sideCharacters;
+		this.enemy = null;
+	}
+
+	public void setEnemy(Character enemy) {
+		this.enemy = enemy;
+	}
+
+	public void addFriendCharacter(Character c) {
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < sideCharacters.length; j++) {
+				if (sideCharacters[j] == null) {
+					sideCharacters[j] = c;
+					break;
+				}
+			}
+		}
+
+	}
+	
+	public void attainGoal(){
+		
+	}
+
+}

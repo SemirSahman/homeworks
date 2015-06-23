@@ -1,0 +1,64 @@
+
+public class Goal extends StoryElement {
+	
+	public static final int EASY = 0;
+	public static final int HARD = 1;
+	public static final int IMPOSSIBLE = 2;
+	
+	
+	private int level;
+	private Event whichEvent;
+	private Character whichCharacter;
+	
+	
+	public Goal(String name, int level, Event whichEvent,
+			Character whichCharacter) {
+		super(name);
+		this.level = level;
+		this.whichEvent = whichEvent;
+		this.whichCharacter = whichCharacter;
+	}
+
+
+	public int getLevel() {
+		return level;
+	}
+
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
+
+	public Event getWhichEvent() {
+		return whichEvent;
+	}
+
+
+	public void setWhichEvent(Event whichEvent) {
+		this.whichEvent = whichEvent;
+	}
+
+
+	public Character getWhichCharacter() {
+		return whichCharacter;
+	}
+
+
+	public void setWhichCharacter(Character whichCharacter) {
+		this.whichCharacter = whichCharacter;
+	}
+
+
+	@Override
+	public String toString() {
+		return "Goal [level=" + level + ", whichEvent=" + whichEvent
+				+ ", whichCharacter=" + whichCharacter + "]";
+	}
+
+
+	
+	
+	
+
+}
