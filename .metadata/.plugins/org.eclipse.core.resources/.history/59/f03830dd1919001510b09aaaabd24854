@@ -1,0 +1,17 @@
+
+public abstract class StoryElement {
+	
+	private String name;
+
+	public StoryElement(String name) {
+		super();
+		this.name = name;
+	}
+
+	public StoryElement() {
+		super();
+		this.name =("STElement");
+	}
+	
+
+}

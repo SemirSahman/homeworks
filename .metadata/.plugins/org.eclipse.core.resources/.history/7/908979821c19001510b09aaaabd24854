@@ -1,0 +1,37 @@
+
+public class Main {
+
+	public static void main(String[] args) {
+
+
+		Character c1 = new Character("Cimi", "male", false);
+		Character c2 = new Character("Cima", "male", true);
+		Character c3 = new Character("Cimke", "male", true);
+		Character c4 = new Character("Cimka", "female", false);
+		Character c5 = new Character("Cimer", "male", false);
+
+
+		Event e = new Event(Event.DEFEAT);
+		System.out.println(e.toString());
+
+
+		Goal g = new Goal("Fihgt", Goal.EASY, e, c1);
+		System.out.println(g);
+
+
+		Protagonist pg = new Protagonist("Monster", "male", true, g);
+
+
+		pg.setEnemy(c2);
+
+		pg.addFriendCharacter(c1);
+		pg.addFriendCharacter(c2);
+		pg.addFriendCharacter(c3);
+		pg.addFriendCharacter(c4);
+
+
+		pg.attainGoal();
+		
+
+	}
+}

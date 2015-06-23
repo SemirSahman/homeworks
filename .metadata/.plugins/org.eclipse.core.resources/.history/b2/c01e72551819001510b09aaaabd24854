@@ -1,0 +1,24 @@
+
+public class Goal extends StoryElement {
+	
+	public static final int EASY = 0;
+	public static final int HARD = 1;
+	public static final int IMPOSSIBLE = 2;
+	
+	
+	private int level;
+	private Event whichEvent;
+	private Character whichCharacter;
+	
+	
+	public Goal(String name, int level, Event whichEvent,
+			Character whichCharacter) {
+		super(name);
+		this.level = level;
+		this.whichEvent = whichEvent;
+		this.whichCharacter = whichCharacter;
+	}
+	
+	
+
+}
