@@ -1,0 +1,37 @@
+package ba.bitcamp.homeworkRekapitulacijaOOP;
+
+public class StarNetwork extends BusNetwork implements Functionable {
+
+	private Server server;
+
+	/**
+	 * @param name Network`s name
+	 * @param server A server
+	 */
+	public StarNetwork(String name, Server server) {
+		super(name);
+		this.server = server;
+	}
+	
+	@Override
+	public boolean isFunctioning() throws IllegalArgumentException {
+		int counter = 0;
+		for (int i = 0; i < getComputers().length; i++) {
+			if(getComputers()[i] instanceof Client){
+				Client c = (Client) getComputers()[i];
+				if(c.getNetwork() != null)
+					counter++;
+			}
+		}
+		if(counter > server.getLimit())
+			return false;
+		else
+			return true;
+	}
+
+	@Override
+	public boolean isFunctionable() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+}
