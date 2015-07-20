@@ -1,0 +1,116 @@
+package ba.bitcamp.ABetterDrawingApp;
+
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
+
+import javax.swing.JButton;
+import javax.swing.JPanel;
+
+public class PaintPanel extends JPanel {
+
+	public static final int SMALL = 10;
+	public static final int MEDIUM = 15;
+	public static final int LARGE = 20;
+
+	private PointArray points;
+	private Color activeColor;
+	private int activeSize;
+
+	private static Color[] supportedColors = new Color[] { Color.RED,
+			Color.BLUE, Color.GREEN, Color.ORANGE, Color.PINK };
+	private static int[] pointSize = new int[] { SMALL, MEDIUM, LARGE };
+	private static String[] buttonSizeText = new String[] { "Small", "Medium",
+			"Large" };
+
+	public PaintPanel(int height, int width) {
+		super();
+
+		points = new PointArray();
+		setSize(width, height);
+		setBackground(Color.WHITE);
+		activeSize = pointSize[0];
+
+		for (int i = 0; i < pointSize.length; i++) {
+
+			JButton size = new JButton(buttonSizeText[i] + " ");
+			size.setName(Integer.toString(i));
+			size.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					JButton clicked = (JButton) e.getSource();
+					activeSize = pointSize[Integer.parseInt(clicked.getName())];
+
+				}
+
+			});
+			add(size);
+		}
+
+		for (int i = 0; i < supportedColors.length; i++) {
+			JButton color = new JButton("Pick");
+			color.setName(Integer.toString(i));
+			color.setForeground(supportedColors[i]);
+
+			color.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					JButton clicked = (JButton) e.getSource();
+
+					String name = clicked.getName();
+					int index = Integer.parseInt(name);
+					activeColor = supportedColors[index];
+
+				}
+
+			});
+
+			add(color);
+			addMouseMotionListener(new MouseHandler());
+		}
+
+	}
+
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+
+		for (int i = 0; i < points.getLength(); i++) {
+			Point p = points.elementAt(i);
+			g.setColor(p.getColor());
+			g.fillOval(p.getX(), p.getY(), p.getSize(), p.getSize());
+		}
+
+	}
+
+	private class MouseHandler implements MouseMotionListener {
+
+		@Override
+		public void mouseDragged(MouseEvent e) {
+			Point newPoint = new Point(e.getX(), e.getY(), activeColor,
+					activeSize);
+
+			if (e.isShiftDown() == true) {
+				newPoint.setColor(Color.WHITE);
+			}
+
+			points.addPoint(newPoint);
+			repaint();
+
+		}
+
+		@Override
+		public void mouseMoved(MouseEvent e) {
+			// TODO Auto-generated method stub
+
+		}
+
+	}
+
+}
