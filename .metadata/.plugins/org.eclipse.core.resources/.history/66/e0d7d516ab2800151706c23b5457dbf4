@@ -1,0 +1,151 @@
+package ba.bitcamp.homeworkArrayProcessing;
+
+public class DynamicString {
+
+	private String arr[];
+
+	private int count;
+
+	public DynamicString(int n, String value) {
+		super();
+		arr = new String[n];
+		count = n;
+		for (int i = 0; i < arr.length; i++) {
+			arr[i] = value;
+		}
+	}
+
+	public DynamicString(int n) {
+		this(n, null);
+		count = 0;
+	}
+
+	public DynamicString() {
+		this(8);
+	}
+
+	public void addElement(String element) {
+
+		if (count >= arr.length) {
+			String temp[] = arr;
+			arr = new String[arr.length * 2 + 1];
+
+			for (int i = 0; i < temp.length; i++) {
+				arr[i] = temp[i];
+			}
+
+			arr[count] = element;
+			count++;
+
+		} else if (count < arr.length) {
+			arr[count] = element;
+			count++;
+		}
+	}
+
+	public void addArrayOfElements(String[] array) {
+		for (int i = 0; i < array.length; i++) {
+			addElement(array[i]);
+		}
+	}
+
+	public int size() {
+		return count;
+	}
+
+	public int totalSize() {
+		return arr.length;
+	}
+
+	public String toString() {
+		String str = "";
+		if (count > 0) {
+			str += size() + "\t[ ";
+			for (int i = 0; i < count - 1; i++) {
+				str += arr[i] + ", ";
+			}
+
+			str += arr[count - 1] + " ]\n" + totalSize() + "\t[ ";
+
+			for (int i = 0; i < arr.length - 1; i++) {
+				str += arr[i] + ", ";
+			}
+			str += arr[arr.length - 1] + " ]";
+		} else {
+			str += size() + "\t[]";
+		}
+		return str;
+	}
+
+	public void removeQuick(int offset) throws IndexOutOfBoundsException {
+
+		if (count == 0) {
+			throw new IndexOutOfBoundsException();
+		}
+
+		if (offset >= count) {
+			throw new IndexOutOfBoundsException();
+		}
+
+		arr[offset] = arr[count - 1];
+		count--;
+
+		if (count <= arr.length / 3) {
+			String[] temp = new String[totalSize() / 2];
+			for (int i = 0; i < temp.length; i++) {
+				temp[i] = arr[i];
+			}
+			arr = temp;
+		}
+	}
+
+	public void removeSlow(int offset) throws IndexOutOfBoundsException {
+
+		if (count == 0) {
+			throw new IndexOutOfBoundsException();
+		}
+
+		if (offset >= count) {
+			throw new IndexOutOfBoundsException();
+		}
+
+		String[] tmp = new String[arr.length];
+
+		for (int i = 0; i < tmp.length - 1; i++) {
+			if (i == offset) {
+				tmp[i] = arr[++offset];
+			} else {
+				tmp[i] = arr[offset];
+			}
+			offset++;
+		}
+		arr = tmp;
+		count--;
+		arr[count] = arr[count - 1];
+
+		if (count <= arr.length / 3) {
+			String[] temp = new String[totalSize() / 2];
+			for (int i = 0; i < temp.length; i++) {
+				temp[i] = arr[i];
+			}
+			arr = temp;
+		}
+	}
+
+	public String[] getMyArray() {
+		return arr;
+	}
+
+	public void setMyArray(String[] myArray) {
+		this.arr = myArray;
+	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+
+}
