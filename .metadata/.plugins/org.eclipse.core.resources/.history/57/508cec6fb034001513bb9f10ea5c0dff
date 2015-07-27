@@ -1,0 +1,44 @@
+package ba.bitcamp.weekendHomework23;
+
+public class Directory {
+
+	private static Map<Type, File> subDirectories = new HashMap<>();
+
+	private static File defaultDirectory;
+
+	/**
+	 * Sets given directory as default and creates other directories.
+	 * 
+	 * @param defaultDirectory
+	 *            Directory to be set as default.
+	 */
+	public static void setDefaultDirectory(File defaultDirectory) {
+
+		Directory.defaultDirectory = defaultDirectory;
+
+		subDirectories.put(Type.DOCUMENTS, new File(defaultDirectory
+				+ "/Documents"));
+		subDirectories.put(Type.AUDIO, new File(defaultDirectory + "/Audio"));
+		subDirectories.put(Type.VIDEO, new File(defaultDirectory + "/Video"));
+		subDirectories.put(Type.PICTURES, new File(defaultDirectory
+				+ "/Pictures"));
+		subDirectories.put(Type.OTHERS, new File(defaultDirectory + "/Others"));
+
+		for (Type t : subDirectories.keySet()) {
+			subDirectories.get(t).mkdir();
+		}
+
+	}
+
+	/**
+	 * @return the defaultDirectory
+	 */
+	public static File getDefaultDirectory() {
+		return defaultDirectory;
+	}
+
+	public static File getDirectory(Type type) {
+		return subDirectories.get(type);
+	}
+
+}
