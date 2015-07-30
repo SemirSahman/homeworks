@@ -20,12 +20,12 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 /**
- * Client class extends JFrame and have one Socket used for connecting to
- * server. GUI app starts as soon as main method is called. When client connects
- * to server, client and server can have chat through GUI app. Client can ask
- * server to do certain action such as open web page, or file on computer, or to
- * delete file on computer and to list all the files in specific directory. If
- * asked client client will receive a list of files in certain folder location.
+ * This class extends JFrame and have one Socket for connecting to server. GUI
+ * app starts as soon as main method is called. When client connects to server,
+ * client and server can have chat through GUI app. Client can ask server to do
+ * certain action such as open web page, or file on computer, or to delete file
+ * on computer and to list all the files in specific directory. If asked, client
+ * will receive a list of files in certain folder location.
  * 
  * @author semir
  *
@@ -36,18 +36,18 @@ public class Client extends JFrame {
 
 	private static final String HOST = "127.0.0.8";
 
-	private static Socket connectTo;
+	private static Socket connect;
 
-	private JButton send = new JButton("send");
-	private JTextField message = new JTextField(25);
-	private JTextArea conversation = new JTextArea();
-	private JScrollPane scroll = new JScrollPane(conversation);
 	private JPanel panel = new JPanel();
+	private JTextArea conversation = new JTextArea();
+	private JTextField message = new JTextField(25);
+	private JScrollPane scroll = new JScrollPane(conversation);
+	private JButton send = new JButton("Send");
 
 	/**
 	 * Default constructor of Client class. Starts GUI application, open's
-	 * server connection and waits for incoming messages to read from
-	 * input stream.
+	 * server connection and waits for incoming messages to read from input
+	 * stream.
 	 */
 	public Client() {
 		startGUI();
@@ -56,8 +56,9 @@ public class Client extends JFrame {
 	}
 
 	/**
-	 * Method that setups GUI app. Adds all components and action listener to "Send" button
-	 * and adds keyboard listener to text field. User can send message by pressing enter button.
+	 * Method that setups GUI app. Adds all components and action listener to
+	 * "Send" button and adds keyboard listener to text field. User can send
+	 * message by pressing enter button.
 	 */
 	private void startGUI() {
 		setLayout(new BorderLayout());
@@ -84,7 +85,7 @@ public class Client extends JFrame {
 	 */
 	private void connectToServer() {
 		try {
-			connectTo = new Socket(HOST, Server.PORT);
+			connect = new Socket(HOST, Server.PORT);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -96,7 +97,7 @@ public class Client extends JFrame {
 	private void recieveMessage() {
 		try {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					connectTo.getInputStream()));
+					connect.getInputStream()));
 
 			while (true) {
 				String msg = reader.readLine();
@@ -108,17 +109,15 @@ public class Client extends JFrame {
 	}
 
 	/**
-	 * Private inner class extends Abstract class KeyAdapter and implements only
-	 * one needed method. Also ActionListener interface is implemented to handle
+	 * Private inner class extends Abstract class KeyAdapter and implements
+	 * needed method. Also ActionListener interface is implemented to handle
 	 * button action.
-	 * 
-	 * @author semir
 	 *
 	 */
 	private class Action extends KeyAdapter implements ActionListener {
 
 		/**
-		 * Implemented method that handles button action, message is send when
+		 * Implemented method that handles button action, message is sent when
 		 * button is pressed.
 		 */
 		@Override
@@ -129,7 +128,7 @@ public class Client extends JFrame {
 		}
 
 		/**
-		 * Implemented method that handles keyboard action, message is send when
+		 * Implemented method that handles keyboard action, message is sent when
 		 * enter key is pressed.
 		 */
 		@Override
@@ -148,7 +147,7 @@ public class Client extends JFrame {
 			String msg = message.getText();
 			try {
 				BufferedWriter writer = new BufferedWriter(
-						new OutputStreamWriter(connectTo.getOutputStream()));
+						new OutputStreamWriter(connect.getOutputStream()));
 				writer.write(msg);
 				writer.newLine();
 				writer.flush();
