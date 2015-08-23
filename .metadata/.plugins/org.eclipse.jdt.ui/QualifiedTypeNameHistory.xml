@@ -3,7 +3,6 @@
 <fullyQualifiedTypeName name="java.lang.reflect.Array"/>
 <fullyQualifiedTypeName name="ba.bitcamp.homeworkRekapitulacijaOOP.Network"/>
 <fullyQualifiedTypeName name="ba.bitcamp.homeworkRekapitulacijaOOP.Connectable"/>
-<fullyQualifiedTypeName name="java.lang.Override"/>
 <fullyQualifiedTypeName name="ba.bitcamp.homeworkRekapitulacijaOOP.Computer"/>
 <fullyQualifiedTypeName name="javax.naming.OperationNotSupportedException"/>
 <fullyQualifiedTypeName name="javax.swing.JFrame"/>
@@ -13,4 +12,6 @@
 <fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
 <fullyQualifiedTypeName name="java.awt.Color"/>
 <fullyQualifiedTypeName name="common.JSONTransformator"/>
+<fullyQualifiedTypeName name="java.lang.Override"/>
+<fullyQualifiedTypeName name="ba.bitcamp.homework28.tasks.task2.Product"/>
 </qualifiedTypeNameHistroy>
