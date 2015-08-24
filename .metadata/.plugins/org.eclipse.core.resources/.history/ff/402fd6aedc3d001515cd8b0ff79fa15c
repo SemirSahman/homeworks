@@ -1,0 +1,122 @@
+package ba.bitcamp.homework27;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.concurrent.LinkedBlockingQueue;
+
+/**
+ * Class counting repetitions of first letter in file
+ * 
+ * @author Ognjen
+ *
+ */
+public class Task1 {
+
+	private BufferedReader fileReader;
+	private LinkedBlockingQueue<Runnable> tasks = new LinkedBlockingQueue<Runnable>();
+	private ArrayList<Producer> producers = new ArrayList<Producer>();
+	private char firstCharacter;
+	private static Integer counter = 1;
+
+	/**
+	 * Default constructor
+	 * 
+	 * @param filePath
+	 *            A file path
+	 */
+	public Task1(String filePath) {
+		super();
+		try {
+			fileReader = new BufferedReader(new InputStreamReader(
+					new FileInputStream(filePath)));
+			firstCharacter = (char) fileReader.read();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Counts repetitions of first letter in file and prints results
+	 */
+	public void startCounting() {
+
+		try {
+			while (fileReader.ready()) {
+				tasks.add(new Consumer(fileReader.readLine()));
+			}
+
+			for (int i = 0; i < 8; i++) {
+				Producer p = new Producer();
+				p.start();
+				producers.add(p);
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		for (int i = 0; i < producers.size(); i++) {
+			try {
+				producers.get(i).join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+
+		System.out.println("Character '" + firstCharacter + "' repeats "
+				+ counter + " times.");
+
+	}
+
+	private class Producer extends Thread {
+
+		@Override
+		public void run() {
+			while (!tasks.isEmpty()) {
+				try {
+					tasks.take().run();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	private class Consumer implements Runnable {
+
+		String line;
+
+		public Consumer(String line) {
+			this.line = line;
+		}
+
+		@Override
+		public void run() {
+			char tmp = ' ';
+			if (Character.isAlphabetic(firstCharacter)) {
+				if (Character.isLowerCase(firstCharacter)) {
+					tmp = Character.toUpperCase(firstCharacter);
+				} else {
+					tmp = Character.toLowerCase(firstCharacter);
+				}
+			} else {
+				tmp = firstCharacter;
+			}
+			for (int i = 0; i < line.length(); i++) {
+				if (line.charAt(i) == firstCharacter || line.charAt(i) == tmp) {
+					synchronized (counter) {
+						counter++;
+					}
+				}
+			}
+		}
+	}
+
+	public static void main(String[] args) {
+		Task1 lif = new Task1("Homework27/src/tekst.txt");
+		lif.startCounting();
+	}
+}
