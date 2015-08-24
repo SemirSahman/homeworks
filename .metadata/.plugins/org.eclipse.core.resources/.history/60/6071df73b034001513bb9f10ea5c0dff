@@ -1,0 +1,137 @@
+package ba.bitcamp.weekendHomework23;
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JPanel;
+import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeSelectionModel;
+
+import ba.bitcamp.homework.UploadedFile.Type;
+
+/**
+ * Class showing panel with informations and options.
+ * 
+ * @author Ognjen
+ *
+ */
+public class Panel extends JPanel {
+
+	private static final long serialVersionUID = 3600893259058264910L;
+
+	private JTree explorer;
+	private JButton btnAdd = new JButton("Add");
+	private JButton btnDelete = new JButton("Delete");
+	private JPanel pnlButtons = new JPanel();
+	private JFileChooser fileChooser = new JFileChooser();
+	private List<UploadedFile> files = new ArrayList<UploadedFile>();
+
+	private DefaultMutableTreeNode root;
+	private Map<Type, DefaultMutableTreeNode> subNodes = new HashMap<>();
+
+	/**
+	 * Default constructor.
+	 */
+	public Panel() {
+
+		setLayout(new BorderLayout());
+
+		setExpolorer();
+		add(explorer);
+
+		btnAdd.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				fileChooser.setDialogTitle("Add file");
+				fileChooser.setApproveButtonText("Add");
+				fileChooser.setApproveButtonMnemonic('A');
+				fileChooser.setApproveButtonToolTipText("Add selected file");
+				if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+					File f = fileChooser.getSelectedFile();
+					UploadedFile u = new UploadedFile(f);
+					files.add(u);
+					u.copyFile(f);
+					updateExplorer();
+				}
+			}
+
+		});
+
+		btnDelete.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				fileChooser.setCurrentDirectory(Directory.getDefaultDirectory());
+				fileChooser.setDialogTitle("Delete file");
+				fileChooser.setApproveButtonText("Delete");
+				fileChooser.setApproveButtonMnemonic('D');
+				fileChooser.setApproveButtonToolTipText("Delete selected file");
+				if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+					UploadedFile u = new UploadedFile(fileChooser
+							.getSelectedFile());
+					files.remove(u);
+					updateExplorer();
+				}
+			}
+		});
+
+		pnlButtons.setLayout(new FlowLayout());
+		btnAdd.setPreferredSize(new Dimension(100, 25));
+		btnDelete.setPreferredSize(new Dimension(100, 25));
+		pnlButtons.add(btnAdd);
+		pnlButtons.add(btnDelete);
+		add(pnlButtons, BorderLayout.SOUTH);
+
+	}
+
+	private void addFileToExplorer(UploadedFile u) {
+		subNodes.get(u.getType()).add(new DefaultMutableTreeNode(u.getName()));
+	}
+
+	private void updateExplorer() {
+
+		for (int i = 0; i < root.getChildCount(); i++) {
+			DefaultMutableTreeNode tmp = (DefaultMutableTreeNode) root
+					.getChildAt(i);
+			tmp.removeAllChildren();
+		}
+
+		for (UploadedFile tmp : files) {
+			addFileToExplorer(tmp);
+		}
+
+		((DefaultTreeModel) explorer.getModel())
+				.nodeStructureChanged((DefaultMutableTreeNode) root);
+	}
+
+	private void setExpolorer() {
+
+		root = new DefaultMutableTreeNode(Directory.getDefaultDirectory());
+
+		for (int i = 0; i < Type.values().length; i++) {
+			subNodes.put(
+					Type.values()[i],
+					new DefaultMutableTreeNode(Directory.getDirectory(Type
+							.values()[i])));
+			root.add(subNodes.get(Type.values()[i]));
+		}
+
+		explorer = new JTree(root);
+		explorer.getSelectionModel().setSelectionMode(
+				TreeSelectionModel.SINGLE_TREE_SELECTION);
+
+	}
+}

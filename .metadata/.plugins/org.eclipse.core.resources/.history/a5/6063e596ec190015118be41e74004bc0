@@ -1,0 +1,47 @@
+package ba.bitcamp.homeworkRekapitulacijaOOP;
+
+public class Main {
+
+public static void main(String[] args) {
+
+    char[] arr = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a',
+    'b' };
+    Computer c = new Computer() {
+
+    };
+    Network n = new Network("Mreza") {
+
+        @Override
+        public void removeComputer(Computer c) {
+            // TODO Auto-generated method stub
+
+        }
+
+        @Override
+        public void addComputer(Computer c) {
+            // TODO Auto-generated method stub
+
+        }
+    };
+
+    Server s = new Server("Server", arr, 10);
+    Client c1 = new Client("Mase zna se", arr);
+    Client c2 = new Client("Client2", new char[12]);
+	Client c3 = new Client("Client3", new char[12]);
+	Client c4 = new Client("Client4", new char[12]);
+    c1.connect(c);
+    c1.disconnect();
+    c1.connect(n);
+
+    StarNetwork sn = new StarNetwork("Network", s);
+	sn.addComputer(c1);
+	sn.addComputer(c2);
+	sn.addComputer(c3);
+	sn.addComputer(c4);
+	
+	sn.removeComputer(c4);
+	
+	System.out.println(sn);
+
+}
+}

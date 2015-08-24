@@ -1,0 +1,182 @@
+package ba.bitcamp.weekendHomework23;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Class representing added files.
+ * 
+ * @author Ognjen
+ *
+ */
+public class UploadedFile {
+
+	public static final String[] DOCUMENTS_EXTENSIONS = { ".txt", ".doc",
+			".docx", ".xls", ".xlsx", ".pdf" };
+	public static final String[] AUDIO_EXTENSIONS = { ".mp3", ".flac", ".wmv" };
+	public static final String[] VIDEO_EXTENSIONS = { ".mp4", ".avi", ".mkv" };
+	public static final String[] PICTURES_EXTENSIONS = { ".png", ".jpg",
+			".bmp", ".gif" };
+
+	public enum Type {
+		DOCUMENTS, AUDIO, VIDEO, PICTURES, OTHERS
+	}
+
+	private File file;
+	private String name;
+	private String extension;
+	private String path;
+	private long size;
+	private Type type;
+	private Map<String[], Type> extensions = new HashMap<>();
+
+	/**
+	 * @param file
+	 *            A file
+	 */
+	public UploadedFile(File file) {
+		super();
+		name = file.toString().substring(
+				file.toString().lastIndexOf(
+						System.getProperty("file.separator")) + 1,
+				file.toString().lastIndexOf('.'));
+		extension = file.toString().substring(file.toString().lastIndexOf('.'),
+				file.toString().length());
+		size = file.length();
+		setFileType();
+		path = Directory.getDirectory(type)
+				+ System.getProperty("file.separator");
+		this.file = new File(path + name + extension);
+	}
+
+	/**
+	 * @return the file
+	 */
+	public File getFile() {
+		return file;
+	}
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @return the extension
+	 */
+	public String getExtension() {
+		return extension;
+	}
+
+	/**
+	 * @return the path
+	 */
+	public String getPath() {
+		return path;
+	}
+
+	/**
+	 * @return the size
+	 */
+	public long getSize() {
+		return size;
+	}
+
+	/**
+	 * @return the type
+	 */
+	public Type getType() {
+		return type;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof UploadedFile))
+			return false;
+		UploadedFile other = (UploadedFile) obj;
+		if (extension == null) {
+			if (other.extension != null)
+				return false;
+		} else if (!extension.equals(other.extension))
+			return false;
+		if (file == null) {
+			if (other.file != null)
+				return false;
+		} else if (!file.equals(other.file))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (path == null) {
+			if (other.path != null)
+				return false;
+		} else if (!path.equals(other.path))
+			return false;
+		if (size != other.size)
+			return false;
+		if (type != other.type)
+			return false;
+		return true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "UploadedFile [file=" + file + ", name=" + name + ", extension="
+				+ extension + ", path=" + path + ", size=" + size + "]";
+	}
+
+	/**
+	 * Copies given file to its location.
+	 * 
+	 * @param origin
+	 */
+	public void copyFile(File origin) {
+		try {
+			Files.copy(origin.toPath(), file.toPath(),
+					StandardCopyOption.REPLACE_EXISTING);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void setFileType() {
+
+		extensions.put(DOCUMENTS_EXTENSIONS, Type.DOCUMENTS);
+		extensions.put(AUDIO_EXTENSIONS, Type.AUDIO);
+		extensions.put(VIDEO_EXTENSIONS, Type.VIDEO);
+		extensions.put(PICTURES_EXTENSIONS, Type.PICTURES);
+
+		for (String[] tmp : extensions.keySet()) {
+			for (String ext : tmp) {
+				if (ext.equals(extension)) {
+					type = extensions.get(tmp);
+					return;
+				}
+			}
+		}
+		type = Type.OTHERS;
+	}
+
+}

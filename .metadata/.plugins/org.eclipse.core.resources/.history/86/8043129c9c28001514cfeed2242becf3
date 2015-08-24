@@ -1,0 +1,98 @@
+package ba.bitcamp.homeworkEventHandler.Task5;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+import javax.swing.BorderFactory;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+public class Task5 extends JFrame implements KeyListener {
+
+
+	private static final long serialVersionUID = -452957436220319979L;
+
+
+	private JPanel panel = new MyPanel();
+
+
+	private int x = 20;
+	private int y = 20;
+
+
+	private static final int RIGHT = 5;
+	private static final int LEFT = -5;
+	private static final int UP = -5;
+	private static final int DOWN = 5;
+
+
+	public Task5() {
+
+		add(panel);
+		panel.setBorder(BorderFactory.createTitledBorder("Moving space"));
+
+
+		addKeyListener(this);
+		;
+
+
+		setSize(800, 600);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLocationRelativeTo(null);
+		setTitle("Task 5");
+		setVisible(true);
+	}
+
+	public static void main(String[] args) {
+
+		new Task5();
+	}
+
+
+	private class MyPanel extends JPanel {
+
+		private static final long serialVersionUID = -1214772869247474779L;
+
+
+		protected void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			g.setColor(Color.CYAN);
+			g.fillOval(x, y, 50, 50);
+		}
+	}
+
+
+	public void keyPressed(KeyEvent e) {
+
+		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+			if (x < getWidth() - 75) {
+				x += RIGHT;
+			}
+
+		} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+			if (x > 5) {
+				x += LEFT;
+			}
+
+		} else if (e.getKeyCode() == KeyEvent.VK_UP) {
+			if (y > 15) {
+				y += UP;
+			}
+
+		} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+			if (y < getHeight() - 95) {
+				y += DOWN;
+			}
+		}
+		panel.repaint();
+	}
+
+	public void keyReleased(KeyEvent e) {
+	}
+
+	public void keyTyped(KeyEvent e) {
+	}
+
+}

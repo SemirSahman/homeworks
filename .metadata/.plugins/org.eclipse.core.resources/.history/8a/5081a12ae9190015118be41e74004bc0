@@ -1,0 +1,62 @@
+package ba.bitcamp.homeworkRekapitulacijaOOP;
+
+public class BusNetwork extends Network {
+
+public BusNetwork(String networkName) {
+    super(networkName);
+    // TODO Auto-generated constructor stub
+}
+
+@Override
+public void addComputer(Computer c) {
+
+    ArrayManipulation.extendArray(getCompArr());
+    getCompArr()[getCompArr().length-1]=c;
+
+    if(c instanceof Server){
+        throw new UnsupportedOperationException("Cannot connect servers on this network");
+    } else if (c instanceof Client) {
+        Client c1 = (Client) c;
+
+        c1.connect(this);
+    }
+
+}
+@Override
+public void removeComputer(Computer c) throws IllegalArgumentException {
+	for (int i = 0; i < getComputers().length; i++) {
+		if(c.equals(getComputers()[i])){
+			setComputers(ArrayManipulation.shrinkArray(getComputers(), i));
+			if(c instanceof Client){
+				Client cl = (Client) c;
+				cl.disconnect();	
+			} else 
+				throw new IllegalArgumentException();
+			return;
+		}
+	}
+	throw new IllegalArgumentException();
+}
+
+@Override
+public boolean isFunctioning() throws IllegalArgumentException {		
+	int counter = 0;
+	for (int i = 0; i < getComputers().length; i++) {
+		if(getComputers()[i] instanceof Client){
+			Client c = (Client) getComputers()[i];
+			if(c.getNetwork() != null){
+				counter++;
+				if(counter == 2)
+					return true;
+			}
+		}
+	}
+	return false;
+}
+
+@Override
+public String toString() {
+	return "Number of computers: " + getComputers().length + "\nIs functioning: " + isFunctioning();
+}
+
+}
