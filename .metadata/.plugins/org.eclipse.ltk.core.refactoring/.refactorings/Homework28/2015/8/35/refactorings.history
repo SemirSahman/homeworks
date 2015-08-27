@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename package &apos;databases&apos; to &apos;SQLite&apos;&#x0D;&#x0A;- Original project: &apos;Homework28&apos;&#x0D;&#x0A;- Original element: &apos;Homework28/src/databases&apos;&#x0D;&#x0A;- Renamed element: &apos;Homework28/src/SQLite&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename package &apos;databases&apos;" flags="589830" hierarchical="false" id="org.eclipse.jdt.ui.rename.package" input="/src&lt;databases" name="SQLite" qualified="false" references="true" stamp="1440366912225" textual="false" version="1.0"/>
+</session>

@@ -1,0 +1,38 @@
+package ba.bitcamp.ormHomework;
+
+public abstract class Model {
+
+	private String tableName;
+
+	public Model(String tableName) {
+		this.tableName = tableName;
+	}
+
+	public String getTableName() {
+		return tableName;
+	}
+
+	public void setTableName(String tableName) {
+		this.tableName = tableName;
+	}
+
+	public String findByPk(Integer pk) {
+
+		String s = "select * from " + tableName + " where id = " + pk;
+		return s;
+
+	}
+
+	public String findByAttribute(String a1, String a2) {
+
+		String s = "select * from " + tableName + " where " + a1 + " = " + a2;
+		return s;
+
+	}
+
+	@Override
+	public String toString() {
+		return "Model [tableName=" + tableName + "]";
+	}
+
+}
