@@ -1,0 +1,10 @@
+package ba.bitcamp.ormHomework;
+
+public class ModelExtended extends Model {
+
+	
+	public ModelExtended(String tableName) {
+		super(tableName);
+	}
+
+}
